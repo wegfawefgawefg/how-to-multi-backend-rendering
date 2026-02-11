@@ -26,7 +26,9 @@ See:
 - `docs/01-call-stack-maps.md`
 - `docs/10-reference-repos.md`
 
-## Quick Start (Desktop)
+## Build + Run By Target
+
+### Linux (Debian/Ubuntu/Arch, etc.)
 
 ```bash
 cmake --preset linux-debug
@@ -34,13 +36,67 @@ cmake --build --preset linux-debug
 ./build/linux-debug/multi_backend_demo
 ```
 
-If your machine lacks system SDL2, try bundled SDL2:
+If your machine lacks system SDL2, use bundled SDL2:
 
 ```bash
 cmake -S . -B build/local -DMBR_USE_BUNDLED_SDL=ON
 cmake --build build/local
 ./build/local/multi_backend_demo
 ```
+
+### macOS
+
+```bash
+cmake -S . -B build/macos-debug -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/macos-debug
+./build/macos-debug/multi_backend_demo
+```
+
+If SDL2 is not installed system-wide on macOS:
+
+```bash
+cmake -S . -B build/macos-debug -G Ninja -DCMAKE_BUILD_TYPE=Debug -DMBR_USE_BUNDLED_SDL=ON
+cmake --build build/macos-debug
+./build/macos-debug/multi_backend_demo
+```
+
+### Windows (PowerShell + Visual Studio Build Tools)
+
+```powershell
+cmake -S . -B build/windows-debug -G Ninja -DCMAKE_BUILD_TYPE=Debug -DMBR_USE_BUNDLED_SDL=ON
+cmake --build build/windows-debug
+.\build\windows-debug\multi_backend_demo.exe
+```
+
+### Web (Emscripten)
+
+```bash
+source /path/to/emsdk/emsdk_env.sh
+cmake --preset web-emscripten
+cmake --build --preset web-emscripten
+cd build/web-emscripten
+python3 -m http.server 8080
+```
+
+Open `http://localhost:8080/multi_backend_demo.html`.
+
+### Android (arm64 scaffold)
+
+```bash
+cmake --preset android-arm64
+cmake --build --preset android-arm64
+```
+
+This currently validates native compilation only. APK packaging/launch wiring is tracked in `docs/09-android-ios-setup.md`.
+
+### iOS Simulator (scaffold)
+
+```bash
+cmake --preset ios-sim
+cmake --build --preset ios-sim
+```
+
+This currently validates CMake/Xcode project generation and native build. App bundle/signing/launch wiring is tracked in `docs/09-android-ios-setup.md`.
 
 ## Backend Selection
 

@@ -9,6 +9,7 @@ CMakeFiles/
 compile_commands.json
 Makefile
 cmake_install.cmake
+CMakeUserPresets.json
 
 # Binaries
 *.exe
@@ -17,12 +18,31 @@ cmake_install.cmake
 *.dylib
 *.a
 *.lib
+*.obj
+*.o
+*.pdb
+*.ilk
+*.dSYM/
 
 # IDE/editor
 .vscode/
 .idea/
+.vs/
+*.sln
+*.vcxproj*
+*.VC.db
+*.VC.opendb
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+*.xcuserstate
+*.xcuserdata/
 *.swp
 *.swo
+
+# Android local files
+.gradle/
+local.properties
 
 # OS noise
 .DS_Store
