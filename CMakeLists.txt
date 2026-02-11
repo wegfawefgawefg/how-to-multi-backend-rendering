@@ -16,6 +16,16 @@ add_executable(multi_backend_demo
 
 target_include_directories(multi_backend_demo PRIVATE include)
 
+if (CMAKE_SYSTEM_NAME STREQUAL "iOS")
+    set_target_properties(multi_backend_demo PROPERTIES
+        MACOSX_BUNDLE TRUE
+        MACOSX_BUNDLE_GUI_IDENTIFIER "com.example.multibackenddemo"
+        MACOSX_BUNDLE_BUNDLE_NAME "MultiBackendDemo"
+        MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION}"
+    )
+endif()
+
 if (MSVC)
     target_compile_options(multi_backend_demo PRIVATE /W4 /permissive-)
 else()
@@ -26,6 +36,7 @@ if (EMSCRIPTEN)
     # Emscripten supplies SDL2 when USE_SDL=2 is enabled.
     # Output .html for easiest local testing.
     set_target_properties(multi_backend_demo PROPERTIES SUFFIX ".html")
+    target_compile_options(multi_backend_demo PRIVATE "-sUSE_SDL=2")
     target_link_options(multi_backend_demo PRIVATE
         "-sUSE_SDL=2"
         "-sALLOW_MEMORY_GROWTH=1"
@@ -49,6 +60,10 @@ else()
             target_link_libraries(multi_backend_demo PRIVATE SDL2-static)
         else()
             message(FATAL_ERROR "Bundled SDL2 enabled but no expected SDL2 target was created.")
+        endif()
+
+        if (TARGET SDL2main)
+            target_link_libraries(multi_backend_demo PRIVATE SDL2main)
         endif()
     else()
         find_package(SDL2 QUIET)
