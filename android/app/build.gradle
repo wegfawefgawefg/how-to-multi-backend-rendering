@@ -1,0 +1,46 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.example.multibackend'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.example.multibackend'
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName '0.1.0'
+
+        externalNativeBuild {
+            cmake {
+                arguments '-DANDROID_STL=c++_static', '-DMBR_USE_BUNDLED_SDL=ON'
+                targets 'main'
+            }
+        }
+
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path '../../CMakeLists.txt'
+            version '3.22.1'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

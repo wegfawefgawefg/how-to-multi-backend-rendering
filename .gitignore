@@ -43,6 +43,8 @@ DerivedData/
 # Android local files
 .gradle/
 local.properties
+android/app/build/
+android/app/.cxx/
 
 # OS noise
 .DS_Store

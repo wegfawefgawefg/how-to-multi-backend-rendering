@@ -80,14 +80,43 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080/multi_backend_demo.html`.
 
-### Android (arm64 scaffold)
+### Android (Linux build + emulator)
 
 ```bash
+export ANDROID_NDK_HOME=/path/to/android-ndk
 cmake --preset android-arm64
 cmake --build --preset android-arm64
 ```
 
-This currently validates native compilation only. APK packaging/launch wiring is tracked in `docs/09-android-ios-setup.md`.
+To build an APK from Linux:
+
+```bash
+cd android
+gradle assembleDebug
+```
+
+Install and launch on device/emulator:
+
+```bash
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb shell am start -n com.example.multibackend/com.example.multibackend.DemoActivity
+```
+
+Android emulator setup/run commands are documented in `docs/09-android-ios-setup.md`.
+
+Shortcut scripts:
+
+```bash
+scripts/android/setup_sdk.sh       # one-time SDK/NDK/emulator packages
+scripts/android/create_avd.sh      # one-time AVD create
+scripts/android/start_emulator.sh  # boot emulator + wait for adb
+scripts/android/build_native.sh    # cmake android-arm64 build
+scripts/android/build_apk.sh       # ./gradlew assembleDebug
+scripts/android/install_apk.sh     # adb install
+scripts/android/run_app.sh         # adb launch activity
+scripts/android/dev_cycle.sh       # build native + apk + install + run
+scripts/android/logcat.sh          # filtered runtime logs
+```
 
 ### iOS Simulator (scaffold)
 
